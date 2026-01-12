@@ -1,0 +1,427 @@
+/* =========================================================
+   THEME (Light + Dark)
+   - Default follows system
+   - Manual override supported via <html data-theme="light|dark">
+   ========================================================= */
+
+:root {
+  /* Light (white + black) */
+  --bg: #ffffff;
+  --text: #000000;
+  --muted: #666666;
+
+  --surface: #f6f6f7;     /* cards */
+  --surface-2: #fbfbfc;   /* nav / subtle panels */
+  --border: #dddddd;
+  --hover: #efeff2;
+
+  --shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+}
+
+/* System dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Aesthetic dark (charcoal, not pure black) */
+    --bg: #0f1115;
+    --text: #e9eaf0;
+    --muted: #a7adbb;
+
+    --surface: #151821;
+    --surface-2: #11141b;
+    --border: #252a36;
+    --hover: #1b2030;
+
+    --shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* Manual override: Light */
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #000000;
+  --muted: #666666;
+
+  --surface: #f6f6f7;
+  --surface-2: #fbfbfc;
+  --border: #dddddd;
+  --hover: #efeff2;
+
+  --shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+}
+
+/* Manual override: Dark */
+:root[data-theme="dark"] {
+  --bg: #0f1115;
+  --text: #e9eaf0;
+  --muted: #a7adbb;
+
+  --surface: #151821;
+  --surface-2: #11141b;
+  --border: #252a36;
+  --hover: #1b2030;
+
+  --shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  max-width: 100ch;
+  margin: 0 auto;
+}
+
+/* page wrapper you used */
+.page {
+  max-width: min(1200px, 95vw);
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+}
+
+/* headings */
+h1, h2, h3 {
+  margin: 2rem 0 1rem;
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* links */
+a {
+  color: inherit;
+  text-decoration-color: var(--border);
+  text-underline-offset: 0.18em;
+}
+a:hover { text-decoration: underline; }
+
+/* form controls inherit font */
+input, textarea, button, select { font: inherit; }
+
+/* =========================================================
+   NAV
+   ========================================================= */
+
+nav {
+  padding: 1rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav li { display: contents; }
+
+nav a {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+nav a:hover { background: var(--hover); cursor: pointer; }
+
+nav a.active,
+nav a.current {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* =========================================================
+   RESUME SECTION HEADERS (fixes Skills underline too)
+   ========================================================= */
+
+/* Any section heading line */
+section > h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.3rem;
+}
+
+/* Optional “Resume section title” class */
+.resume-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Resume header */
+.resume-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  line-height: 1.2;
+}
+
+/* Education */
+.education-item { margin-bottom: 1.8rem; }
+
+.education-item h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.education-item .degree { font-style: italic; }
+
+.education-item .date,
+.work-item .date,
+.project-year {
+  color: var(--muted);
+}
+
+.education-item:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1rem;
+}
+
+/* Work experience */
+.work-item { margin-bottom: 2rem; }
+
+.work-item h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.work-tasks {
+  margin-left: 1.2rem;
+  list-style-type: disc;
+  line-height: 1.6;
+}
+
+.work-tasks li { margin-bottom: 0.4rem; }
+
+/* =========================================================
+   PROJECTS GRID + CARDS (mobile-friendly)
+   ========================================================= */
+
+.projects,
+.projects-all {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .projects,
+  .projects-all { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .projects,
+  .projects-all { grid-template-columns: 1fr; }
+}
+
+.projects article,
+.projects-all article,
+.project-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Card title */
+.projects article h2, .projects article h3,
+.projects-all article h2, .projects-all article h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+/* Project images (smaller + consistent) */
+.projects article img,
+.projects-all article img {
+  width: 100%;
+  height: 140px;        /* controls bigness */
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+/* Teaser description (clamped) */
+.project-desc {
+  margin: 0;
+  opacity: 0.9;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+/* Read more link (tap-friendly) */
+.project-link {
+  margin-top: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+
+  padding: 0.4rem 0.6rem;  /* mobile tap target */
+  border-radius: 10px;
+}
+
+.project-link:hover,
+.project-link:focus-visible {
+  background: var(--hover);
+  outline: none;
+}
+
+/* Year pushed to bottom for equal card bottoms */
+.projects article small,
+.projects-all article small {
+  margin-top: auto;
+  color: var(--muted);
+}
+
+/* Make card links inherit color */
+.projects article a,
+.projects-all article a { color: inherit; }
+
+/* =========================================================
+   GITHUB SECTION (two columns -> one on mobile)
+   ========================================================= */
+
+.github-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .github-section { grid-template-columns: 1fr; }
+}
+
+.github-panel,
+.github-stats,
+#profile-stats {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.github-panel h2 { margin-top: 0; }
+
+/* GitHub Overview dl layout */
+.github-stats dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1rem;
+}
+.github-stats dt { font-weight: 600; }
+.github-stats dd { margin: 0; }
+
+/* Activity Summary: ONE ROW (fixes your misalignment issue) */
+#profile-stats dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+#profile-stats dt {
+  margin: 0;
+  font-weight: 700;
+}
+#profile-stats dd {
+  margin: 0.25rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* =========================================================
+   PIE CHART + LEGEND
+   ========================================================= */
+
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+  overflow: visible;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2rem auto 0;
+  max-width: 100%;
+}
+
+svg#projects-plot {
+  width: 40vw;
+  max-width: 200px;
+  height: auto;
+}
+
+.legend {
+  padding: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  flex: 1 1 auto;
+  min-width: 180px;
+  max-width: 100%;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.legend .swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background-color: var(--color);
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+/* Pie interactions */
+svg:has(path:hover) path:not(:hover) { opacity: 0.4; transition: opacity 0.2s ease; }
+svg path { cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease; }
+svg path:hover { opacity: 1; transform: scale(1.05); }
+
+/* Selected wedge + legend */
+.selected { --color: var(--text) !important; }
+.selected:is(path) { fill: var(--color); opacity: 1 !important; transform: scale(1.1); }
+.selected:is(li) { font-weight: 700; color: var(--color); }

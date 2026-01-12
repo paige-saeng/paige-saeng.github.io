@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <!-- Pie chart + legend -->
+  <div class="container">
+    <svg id="projects-plot" viewBox="-50 -50 100 100"></svg>
+    <ul class="legend"></ul>
+  </div>
+
+  <!-- Search -->
+  <input
+    class="searchBar"
+    type="search"
+    aria-label="Search projects"
+    placeholder="Search projects..."
+  />
+
+<main>
+  <h1 class="projects-title">Projects</h1>
+
+  <div class="projects-controls">
+    <button type="button" class="clearFilters">Clear filters</button>
+  </div>
+
+  <h2>Latest Projects</h2>
+  <div class="projects"></div>
+
+  <h2>All Projects</h2>
+  <div class="projects-all"></div>
+</main>
+
+
+
+  <!-- Global nav + theme -->
+  <script type="module" src="../global.js"></script>
+
+  <!-- D3 + Projects logic -->
+<script type="module">
+  import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
+
+  const projectsContainer = document.querySelector(".projects");
+  const allProjectsContainer = document.querySelector(".projects-all");
+  const searchInput = document.querySelector(".searchBar");
+  const clearBtn = document.querySelector(".clearFilters");
+
+  if (!projectsContainer) console.warn("Missing .projects container");
+  if (!allProjectsContainer) console.warn("Missing .projects-all container");
+  if (!searchInput) console.warn("Missing .searchBar input");
+
+  /* ---------------- Render Projects (WITH LINKS) ---------------- */
+  function renderProjects(list, container, headingTag = "h3") {
+    if (!container) return;
+    container.innerHTML = "";
+
+    list.forEach((p) => {
+      const article = document.createElement("article");
+
+      if (p.link) {
+        article.style.cursor = "pointer";
+        article.addEventListener("click", () =>
+          window.open(p.link, "_blank", "noreferrer")
+        );
+      }
+
+      const titleHTML = p.link
+        ? `<a href="${p.link}" target="_blank" rel="noreferrer">${p.title}</a>`
+        : p.title;
+
+      article.innerHTML = `
+        <${headingTag}>${titleHTML}</${headingTag}>
+        ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : ""}
+        <p>${p.description || ""}</p>
+        <small>${p.year}</small>
+      `;
+
+      container.appendChild(article);
+    });
+  }
+
+  /* ---------------- Pie Chart ---------------- */
+  function renderPieChart(projectsGiven, onSelectYear) {
+    const rolledData = d3.rollups(
+      projectsGiven,
+      (v) => v.length,
+      (d) => d.year
+    ).sort((a, b) => b[0] - a[0]);
+
+    const pieData = rolledData.map(([year, count]) => ({ label: year, value: count }));
+
+    const svg = d3.select("#projects-plot");
+    svg.selectAll("*").remove();
+
+    const legend = d3.select(".legend");
+    legend.selectAll("*").remove();
+
+    const arc = d3.arc().innerRadius(0).outerRadius(50);
+    const pie = d3.pie().value((d) => d.value);
+    const colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+    const arcs = pie(pieData);
+
+    svg.selectAll("path")
+      .data(arcs)
+      .join("path")
+      .attr("d", arc)
+      .attr("fill", (d, i) => colors(i))
+      .style("cursor", "pointer")
+      .on("click", (_, d) => onSelectYear?.(d.data.label));
+
+    legend.selectAll("li")
+      .data(pieData)
+      .join("li")
+      .attr("style", (d, i) => `--color:${colors(i)}`)
+      .html((d) => `<span class="swatch"></span> ${d.label} (${d.value})`)
+      .style("cursor", "pointer")
+      .on("click", (_, d) => onSelectYear?.(d.label));
+  }
+
+  /* ---------------- Helpers ---------------- */
+  const sortNewest = (arr) => [...arr].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+  const top3 = (arr) => sortNewest(arr).slice(0, 3);
+
+  function renderBoth(listForView) {
+    // Latest = top 3 of whatever list we are currently viewing
+    renderProjects(top3(listForView), projectsContainer, "h2");
+
+    // All = full list (newest first)
+    renderProjects(sortNewest(listForView), allProjectsContainer, "h3");
+
+    // Pie reflects current list
+    renderPieChart(listForView, (year) => {
+      const byYear = listForView.filter(p => p.year === year);
+      renderBoth(byYear);
+    });
+  }
+
+  /* ---------------- Load + Normalize ---------------- */
+  const raw = await d3.json("../lib/projects.json");
+
+  const projects = raw.map(p => ({
+    ...p,
+    year: Number(p.year),
+  }));
+
+  // If you DO NOT want placeholders, keep this.
+  // If you want placeholders included, change realProjects = projects
+  const realProjects = projects.filter(p => !p.isPlaceholder);
+
+  document.querySelector(".projects-title").textContent =
+    `Projects (${realProjects.length})`;
+
+  // ✅ Initial render: shows latest + all
+  renderBoth(realProjects);
+
+  /* ---------------- Search ---------------- */
+  searchInput?.addEventListener("input", (e) => {
+    const q = e.target.value.toLowerCase().trim();
+    const filtered = realProjects.filter(p =>
+      Object.values(p).join(" ").toLowerCase().includes(q)
+    );
+    renderBoth(filtered);
+  });
+
+  /* ---------------- Clear Filters ---------------- */
+  clearBtn?.addEventListener("click", () => {
+    if (searchInput) searchInput.value = "";
+    renderBoth(realProjects);
+  });
+</script>
+
+</body>
+</html>

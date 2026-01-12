@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Bio Spark Tahoe",
+    "year": "2025",
+    "image": "../images/dna.jpg",
+    "description": "Focused on exploring and preprocessing a large-scale gene expression dataset (TAHOE-100M) with drug perturbation profiles across cell types.",
+    "link": "biosparktahoe.pdf"
+  },
+  {
+    "title": "Time Series Analysis: Mercury Retrograde and Stock Market Performance",
+    "year": "2023",
+    "image": "../images/mercury.webp",
+    "description": "Examined correlation and cyclicality between stock index returns and Mercury’s cycle; found simple returns mirrored the cycle.",
+    "link": "Time Series Analysis_.pdf"
+  },
+  {
+    "title": "Dating Style Exploratory Analysis",
+    "year": "2024",
+    "image": "../images/datingimg.jpg",
+    "description": "Designed and analyzed a behavioral study on dating styles; connected personality traits to relationship outcomes using multivariate methods.",
+    "link": "https://rpubs.com/Paige-saeng/1267981"
+  },
+
+  {
+    "title": "Natural Disaster Frequency",
+    "year": "2025",
+    "image": "../images/naturaldisasterimg.png",
+    "description": "The visualization helps the viewer explore how long-term climate shifts relate to short-term disasters. Presenting these datasets together allows us to see if patterns that are not visible when each is viewed individually, without suggesting a direct relationship.",
+    "link": "https://paige-saeng.github.io/DSC209_DisasterFreq/"
+  },
+  {
+    "title": "Interactive Climate Change World Map",
+    "year": "2025",
+    "image": "../images/worldvis.png",
+    "description": "The phrase 'global warming' was meant to raise awareness - but it ultimately became a double-edged sword. Skeptics pointed to cold winters or stable regions and claimed the whole idea was exaggerated, mistaking local weather for global climate. To understand what really happened, we need to see both stories at once; the planet as a whole, and the specific country we care about most.",
+    "link": "https://paige-saeng.github.io/ClimateChangesDSC209R/"
+  }
+]
