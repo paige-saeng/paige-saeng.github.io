@@ -1,7 +1,7 @@
 [
   {
     "title": "Bio Spark Tahoe",
-    "year": "2025",
+    "year": "2024",
     "image": "../images/dna.jpg",
     "description": "Focused on exploring and preprocessing a large-scale gene expression dataset (TAHOE-100M) with drug perturbation profiles across cell types.",
     "link": "biosparktahoe.pdf"
@@ -40,6 +40,6 @@
     "year": "2026",
     "image": "../images/steam.webp",
     "description": "This paper proposes a multi-modal machine learning framework that concurrently addresses three predictive tasks using the Steam Review Dataset (comprising over 100 million reviews): (1) recommendation classification—predicting whether a user recommends a game; (2) helpfulness prediction—assessing the usefulness of a review to other users; and (3) personalized game recommendation—ranking games that a user is likely to engage with next. Data workflow/code can be found in my github :)",
-    "link": "DSC288R_Capstone_Final report.pdf"
+    "link": "DSC288R_Capstone_Final_report.pdf"
   }
 ]
