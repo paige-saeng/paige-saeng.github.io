@@ -62,12 +62,20 @@
     list.forEach((p) => {
       const article = document.createElement("article");
 
+
       if (p.link) {
         article.style.cursor = "pointer";
-        article.addEventListener("click", () =>
-          window.open(p.link, "_blank", "noreferrer")
-        );
-      }
+        article.addEventListener("click", () => {
+    if (p.link.endsWith('.pdf')) {
+      window.location.href = p.link;
+    } else {
+      window.open(p.link, "_blank", "noreferrer");
+    }
+  });
+}
+
+    
+
 
       const titleHTML = p.link
         ? `<a href="${p.link}" target="_blank" rel="noreferrer">${p.title}</a>`
