@@ -39,6 +39,6 @@
     "year": 2026,
     "image": "../images/steam.webp",
     "description": "Multi-modal ML framework across 100M+ Steam reviews covering recommendation classification, helpfulness prediction, and personalized game ranking using LightGBM, ALS, and BERT.",
-    "link": "DSC288R_Capstone_Final_report.pdf"
+    "link": "capstone_steam.pdf"
   }
 ]
